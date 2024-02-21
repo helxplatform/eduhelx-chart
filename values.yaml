@@ -164,6 +164,7 @@ professor-helx:
     gitea:
       enabled: true
       host: "<change-me>"
+
 eduhelx-grader-api:
   # -- enable/disable deployment of the EduHeLx Grader API
   enabled: true
@@ -174,9 +175,11 @@ eduhelx-grader-api:
   securityContext:
     runAsNonRoot: true
     runAsUser: "<change-me>"
+
 gitea:
   # -- enable/disable deployment of the Gitea service
   enabled: true
+
 gitea-assist:
   # -- enable/disable deployment of the Gitea Assist service
   enabled: true
