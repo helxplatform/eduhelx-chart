@@ -1,0 +1,182 @@
+# Default values for eduhelx-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nameOverride: ""
+fullnameOverride: ""
+
+student-helx:
+  # -- enable/disable deployment of the student deployment of HeLx 
+  enabled: true
+  global:
+    stdnfsPvc: studentnfs
+  ambassador:
+    image:
+      repository: containers.renci.org/helxplatform/ambassador
+      tag: latest
+    securityContext:
+      # -- Set these options when deploying to openshift. Defaults seen here.
+      # runAsUser: 8888
+      # runAsGroup: ""
+      # fsGroup: ""
+  appstore:
+    image:
+      tag: v3.3.0
+    ACCOUNT_DEFAULT_HTTP_PROTOCOL: https
+    djangoSettings: eduhelx-dev
+    django:
+      APPSTORE_DJANGO_PASSWORD: "<change-me>"
+      ALLOW_SAML_LOGIN: true
+      DEV_PHASE: prod
+      EMAIL_HOST_PASSWORD: "<change-me>"
+      EMAIL_HOST_USER: appstore@renci.org
+      AUTHORIZED_USERS: |
+        tcheek@renci.org
+        pjl@unc.edu
+        pjl@renci.org
+        bennettc@renci.org
+        cnbiii@email.unc.edu
+        hinashah@renci.org
+        isma@email.unc.edu
+        jeffw@renci.org
+        jseals@renci.org
+        hpatel@renci.org
+    fetcherImage:
+      repository: containers.renci.org/helxplatform/url-fetch
+    imagePostgresql:
+      repository: containers.renci.org/helxplatform/third-party/postgres
+      tag: latest
+    # -- This security context is used for the appstore pod, not pods created by appstore. Tycho manages 
+    # the pods created by appstore.
+    podSecurityContext:
+      allowPrivilegeEscalation: false
+      runAsNonRoot: true
+      runAsGroup: "<change-me>"
+      runAsUser: "<change-me>"
+      # fsGroup:
+    postgresql:
+      image:
+        registry: containers.renci.org
+        repository: helxplatform/third-party/postgres
+        tag: latest
+      primary:
+        persistence:
+          # -- Change this to the size of the studentnfs PVC.
+          size: "<change-me>"
+      securityContext:
+        enabled: true
+        runAsUser: "<change-me>"
+    resources:
+      limits:
+        cpu:
+        memory: 1024Mi
+      requests:
+        cpu: 1
+        memory: 1024Mi
+    saml:
+      AUTHORITY_URL: "https://sso.unc.edu/metadata/unc"
+      ASSERTION_URL: https://<change-me>
+      ENTITY_ID: "https://<change-me>/saml2_auth/acs/"
+      cache:
+        enabled: true
+        storageSize: "50M"
+        FETCH_INTERVAL: 3600000
+    gitea:
+      enabled: true
+      host: "<change-me>"
+
+professor-helx:
+  # -- enable/disable deployment of the professor deployment of HeLx 
+  enabled: true
+  global:
+    stdnfsPvc: professornfs
+  ambassador:
+    image:
+      repository: containers.renci.org/helxplatform/ambassador
+      tag: latest
+    securityContext:
+      # -- Set these options when deploying to openshift. Defaults seen here.
+      # runAsUser: 8888
+      # runAsGroup: ""
+      # fsGroup: ""
+  appstore:
+    image:
+      tag: v3.3.0
+    ACCOUNT_DEFAULT_HTTP_PROTOCOL: https
+    djangoSettings: eduhelx-dev
+    django:
+      APPSTORE_DJANGO_PASSWORD: "<change-me>"
+      ALLOW_SAML_LOGIN: true
+      DEV_PHASE: prod
+      EMAIL_HOST_PASSWORD: "<change-me>"
+      EMAIL_HOST_USER: appstore@renci.org
+      AUTHORIZED_USERS: |
+        tcheek@renci.org
+        pjl@unc.edu
+        pjl@renci.org
+        bennettc@renci.org
+        cnbiii@email.unc.edu
+        hinashah@renci.org
+        isma@email.unc.edu
+        jeffw@renci.org
+        jseals@renci.org
+        hpatel@renci.org
+    fetcherImage:
+      repository: containers.renci.org/helxplatform/url-fetch
+    imagePostgresql:
+      repository: containers.renci.org/helxplatform/third-party/postgres
+      tag: latest
+    # -- This security context is used for the appstore pod, not pods created by appstore. Tycho manages 
+    # the pods created by appstore.
+    podSecurityContext:
+      allowPrivilegeEscalation: false
+      runAsNonRoot: true
+      runAsGroup: "<change-me>"
+      runAsUser: "<change-me>"
+      # fsGroup:
+    postgresql:
+      image:
+        registry: containers.renci.org
+        repository: helxplatform/third-party/postgres
+        tag: latest
+      primary:
+        persistence:
+          # -- Change this to the size of the professornfs PVC.
+          size: "<change-me>"
+      securityContext:
+        enabled: true
+        runAsUser: "<change-me>"
+    resources:
+      limits:
+        cpu:
+        memory: 1024Mi
+      requests:
+        cpu: 1
+        memory: 1024Mi
+    saml:
+      AUTHORITY_URL: "https://sso.unc.edu/metadata/unc"
+      ASSERTION_URL: https://<change-me>
+      ENTITY_ID: "https://<change-me>/saml2_auth/acs/"
+      cache:
+        enabled: true
+        storageSize: "50M"
+        FETCH_INTERVAL: 3600000
+    gitea:
+      enabled: true
+      host: "<change-me>"
+eduhelx-grader-api:
+  # -- enable/disable deployment of the EduHeLx Grader API
+  enabled: true
+  config:
+    data:
+      # -- Change this to "prod" when deploying to production. Default is "dev".
+      # DEV_PHASE: "dev"
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: "<change-me>"
+gitea:
+  # -- enable/disable deployment of the Gitea service
+  enabled: true
+gitea-assist:
+  # -- enable/disable deployment of the Gitea Assist service
+  enabled: true
