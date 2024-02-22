@@ -1,0 +1,77 @@
+# Use this file as a starting point for a new values file. It is the minimum required changes to the default
+# values file for the deployment to reasonably work.
+
+student-helx:
+  ambassador:
+    securityContext:
+      # -- Set these options when deploying to openshift. Defaults seen here.
+      runAsUser: 8888
+  appstore:
+    django:
+      APPSTORE_DJANGO_PASSWORD: "<change-me>"
+      EMAIL_HOST_PASSWORD: "<change-me>"
+    podSecurityContext:
+      runAsUser: "<change-me>"
+      runAsGroup: "<change-me>"
+    postgresql:
+      securityContext:
+        runAsUser: "<change-me>"
+    saml:
+      ASSERTION_URL: https://helx-test.apps.renci.org
+      ENTITY_ID: "https://helx-test.apps.renci.org/saml2_auth/acs/"
+    gitea:
+      host: gitea.example.com
+
+professor-helx:
+  ambassador:
+    securityContext:
+      # -- Set these options when deploying to openshift. Defaults seen here.
+      runAsUser: 8888
+  appstore:
+    django:
+      APPSTORE_DJANGO_PASSWORD: "<change-me>"
+      EMAIL_HOST_PASSWORD: "<change-me>"
+    podSecurityContext:
+      runAsUser: "<change-me>"
+      runAsGroup: "<change-me>"
+    postgresql:
+      securityContext:
+        runAsUser: "<change-me>"
+    saml:
+      ASSERTION_URL: https://helx-test.apps.renci.org
+      ENTITY_ID: "https://helx-test.apps.renci.org/saml2_auth/acs/"
+    gitea:
+      host: gitea.example.com
+
+eduhelx-grader-api:
+  securityContext:
+    runAsUser: "<change-me>"
+
+gitea:
+  gitea:
+    admin:
+      email: "<change-me>"
+      password: "<change-me>"
+    config:
+      server:
+        DOMAIN: gitea.example.com
+        ROOT_URL: https://gitea.example.com
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+    className: null
+    enabled: true
+    hosts:
+    - host: gitea.example.com
+      paths:
+      - path: /
+        pathType: Prefix
+    tls:
+    - hosts:
+      - gitea.example.com
+      secretName: "gitea.example.com-tls"
+
+gitea-assist:
+  config:
+    data:
+      gitea-api-url: gitea.example.com

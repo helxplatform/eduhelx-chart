@@ -61,8 +61,7 @@ student-helx:
         tag: latest
       primary:
         persistence:
-          # -- Change this to the size of the studentnfs PVC.
-          size: "<change-me>"
+          size: 2Gi
       securityContext:
         enabled: true
         runAsUser: "<change-me>"
@@ -96,7 +95,7 @@ professor-helx:
       tag: latest
     securityContext:
       # -- Set these options when deploying to openshift. Defaults seen here.
-      # runAsUser: 8888
+      runAsUser: 8888
       # runAsGroup: ""
       # fsGroup: ""
   appstore:
@@ -141,8 +140,7 @@ professor-helx:
         tag: latest
       primary:
         persistence:
-          # -- Change this to the size of the professornfs PVC.
-          size: "<change-me>"
+          size: 2Gi
       securityContext:
         enabled: true
         runAsUser: "<change-me>"
@@ -179,6 +177,49 @@ eduhelx-grader-api:
 gitea:
   # -- enable/disable deployment of the Gitea service
   enabled: true
+  gitea:
+    actionsRunner:
+      enabled: true
+    admin:
+      email: "<change-me>"
+      password: "<change-me>"
+      username: gitea_admin
+    config:
+      config:
+        ENABLED: "true"
+      server:
+        DOMAIN: "<change-me>"
+        ROOT_URL: "<change-me>"
+      webhook:
+        ALLOWED_HOST_LIST: "gitea-assist"
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
+    className: null
+    enabled: true
+    hosts:
+    - host: "<change-me>"
+      paths:
+      - path: /
+        pathType: Prefix
+    tls:
+    - hosts:
+      - "<change-me>"
+      secretName: "<change-me>-tls"
+  persistence:
+    size: 8Gi
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+  postgresql-ha:
+    enabled: false
+  postgresql:
+    enabled: true
+
 
 gitea-assist:
   # -- enable/disable deployment of the Gitea Assist service
