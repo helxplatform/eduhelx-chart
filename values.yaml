@@ -224,3 +224,6 @@ gitea:
 gitea-assist:
   # -- enable/disable deployment of the Gitea Assist service
   enabled: true
+  config:
+    data:
+      gitea-api-url: "<change-me>"

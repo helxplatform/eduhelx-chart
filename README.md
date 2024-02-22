@@ -23,12 +23,36 @@ A Helm chart for Kubernetes
 | eduhelx-grader-api.securityContext.runAsNonRoot | bool | `true` |  |
 | eduhelx-grader-api.securityContext.runAsUser | string | `"<change-me>"` |  |
 | fullnameOverride | string | `""` |  |
+| gitea-assist.config.data.gitea-api-url | string | `"<change-me>"` |  |
 | gitea-assist.enabled | bool | `true` | enable/disable deployment of the Gitea Assist service |
 | gitea.enabled | bool | `true` | enable/disable deployment of the Gitea service |
+| gitea.gitea.actionsRunner.enabled | bool | `true` |  |
+| gitea.gitea.admin.email | string | `"<change-me>"` |  |
+| gitea.gitea.admin.password | string | `"<change-me>"` |  |
+| gitea.gitea.admin.username | string | `"gitea_admin"` |  |
+| gitea.gitea.config.config.ENABLED | string | `"true"` |  |
+| gitea.gitea.config.server.DOMAIN | string | `"<change-me>"` |  |
+| gitea.gitea.config.server.ROOT_URL | string | `"<change-me>"` |  |
+| gitea.gitea.config.webhook.ALLOWED_HOST_LIST | string | `"gitea-assist"` |  |
+| gitea.ingress.annotations."cert-manager.io/cluster-issuer" | string | `"letsencrypt"` |  |
+| gitea.ingress.className | string | `nil` |  |
+| gitea.ingress.enabled | bool | `true` |  |
+| gitea.ingress.hosts[0].host | string | `"<change-me>"` |  |
+| gitea.ingress.hosts[0].paths[0].path | string | `"/"` |  |
+| gitea.ingress.hosts[0].paths[0].pathType | string | `"Prefix"` |  |
+| gitea.ingress.tls[0].hosts[0] | string | `"<change-me>"` |  |
+| gitea.ingress.tls[0].secretName | string | `"<change-me>-tls"` |  |
+| gitea.persistence.size | string | `"8Gi"` |  |
+| gitea.postgresql-ha.enabled | bool | `false` |  |
+| gitea.postgresql.enabled | bool | `true` |  |
+| gitea.resources.limits.cpu | string | `"500m"` |  |
+| gitea.resources.limits.memory | string | `"512Mi"` |  |
+| gitea.resources.requests.cpu | string | `"500m"` |  |
+| gitea.resources.requests.memory | string | `"512Mi"` |  |
 | nameOverride | string | `""` |  |
 | professor-helx.ambassador.image.repository | string | `"containers.renci.org/helxplatform/ambassador"` |  |
 | professor-helx.ambassador.image.tag | string | `"latest"` |  |
-| professor-helx.ambassador.securityContext | string | `nil` |  |
+| professor-helx.ambassador.securityContext.runAsUser | int | `8888` | Set these options when deploying to openshift. Defaults seen here. |
 | professor-helx.appstore.ACCOUNT_DEFAULT_HTTP_PROTOCOL | string | `"https"` |  |
 | professor-helx.appstore.django.ALLOW_SAML_LOGIN | bool | `true` |  |
 | professor-helx.appstore.django.APPSTORE_DJANGO_PASSWORD | string | `"<change-me>"` |  |
@@ -47,7 +71,7 @@ A Helm chart for Kubernetes
 | professor-helx.appstore.postgresql.image.registry | string | `"containers.renci.org"` |  |
 | professor-helx.appstore.postgresql.image.repository | string | `"helxplatform/third-party/postgres"` |  |
 | professor-helx.appstore.postgresql.image.tag | string | `"latest"` |  |
-| professor-helx.appstore.postgresql.primary.persistence.size | string | `"<change-me>"` | Change this to the size of the professornfs PVC. |
+| professor-helx.appstore.postgresql.primary.persistence.size | string | `"2Gi"` |  |
 | professor-helx.appstore.postgresql.securityContext.enabled | bool | `true` |  |
 | professor-helx.appstore.postgresql.securityContext.runAsUser | string | `"<change-me>"` |  |
 | professor-helx.appstore.resources.limits.cpu | string | `nil` |  |
@@ -83,7 +107,7 @@ A Helm chart for Kubernetes
 | student-helx.appstore.postgresql.image.registry | string | `"containers.renci.org"` |  |
 | student-helx.appstore.postgresql.image.repository | string | `"helxplatform/third-party/postgres"` |  |
 | student-helx.appstore.postgresql.image.tag | string | `"latest"` |  |
-| student-helx.appstore.postgresql.primary.persistence.size | string | `"<change-me>"` | Change this to the size of the studentnfs PVC. |
+| student-helx.appstore.postgresql.primary.persistence.size | string | `"2Gi"` |  |
 | student-helx.appstore.postgresql.securityContext.enabled | bool | `true` |  |
 | student-helx.appstore.postgresql.securityContext.runAsUser | string | `"<change-me>"` |  |
 | student-helx.appstore.resources.limits.cpu | string | `nil` |  |

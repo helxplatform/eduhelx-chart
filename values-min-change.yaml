@@ -5,7 +5,7 @@ student-helx:
   ambassador:
     securityContext:
       # -- Set these options when deploying to openshift. Defaults seen here.
-      runAsUser: 8888
+      # runAsUser: 8888
   appstore:
     django:
       APPSTORE_DJANGO_PASSWORD: "<change-me>"
@@ -26,7 +26,7 @@ professor-helx:
   ambassador:
     securityContext:
       # -- Set these options when deploying to openshift. Defaults seen here.
-      runAsUser: 8888
+      # runAsUser: 8888
   appstore:
     django:
       APPSTORE_DJANGO_PASSWORD: "<change-me>"
