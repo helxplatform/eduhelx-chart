@@ -43,7 +43,7 @@ professor-helx:
     gitea:
       host: gitea.example.com
 
-eduhelx-grader-api:
+grader-api:
   securityContext:
     runAsUser: "<change-me>"
 

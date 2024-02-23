@@ -34,14 +34,14 @@ dependencies:
     version: "^4.2.0"
     alias: professor-helx
     repository: "@helx-charts"
-  - name: eduhelx-grader-api
-    condition: eduhelx-grader-api.enabled
+  - name: grader-api
+    condition: grader-api.enabled
     version: "^1.0.1"
     repository: "@helx-charts"
   - name: gitea
     condition: gitea.enabled
     version: "^0.0.0"
-    repository: "@gitea-charts"
+    repository: "@https://dl.gitea.io/charts/"
   - name: gitea-assist
     condition: gitea-assist.enabled
     version: "^1.0.0"

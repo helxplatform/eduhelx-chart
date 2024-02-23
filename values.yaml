@@ -163,7 +163,7 @@ professor-helx:
       enabled: true
       host: "<change-me>"
 
-eduhelx-grader-api:
+grader-api:
   # -- enable/disable deployment of the EduHeLx Grader API
   enabled: true
   config:
