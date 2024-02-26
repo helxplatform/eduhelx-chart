@@ -172,6 +172,49 @@ professor-helx:
     gitea:
       enabled: true
       host: "<change-me>"
+  nginx:
+    enabled: false
+  resty:
+    enabled: true
+    service:
+      serverName: "<change-me>"
+    SSL:
+      nginxTLSSecret: "<change-me>-tls"
+  ui:
+    config:
+      brand_name: eduhelx-dev
+      search:
+        enabled: "false"
+        url: "https:\/\/<change-me>\/search-api"
+      workspaces:
+        enabled: "true"
+    service:
+      annotations:
+        getambassador.io/config: |
+          ---
+          apiVersion: ambassador/v1
+          kind: Mapping
+          name: helx-ui
+          prefix: /helx
+          service: helx-ui:80
+          rewrite: /helx
+          cors:
+            origins: "*"
+            methods: POST, OPTIONS
+            headers:
+            - Content-Type
+          ---
+          apiVersion: ambassador/v1
+          kind: Mapping
+          name: helx-ui-static
+          prefix: /static/frontend
+          service: helx-ui:80
+          rewrite: /static/frontend
+          cors:
+            origins: "*"
+            methods: POST, OPTIONS
+            headers:
+            - Content-Type
 
 grader-api:
   # -- enable/disable deployment of the EduHeLx Grader API

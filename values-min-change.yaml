@@ -15,6 +15,18 @@ student-helx:
       ENTITY_ID: "https://helx-test.apps.renci.org/saml2_auth/acs/"
     gitea:
       host: helx-test-gitea.apps.renci.org
+  resty:
+    enabled: true
+    service:
+      serverName: helx-test.apps.renci.org
+    SSL:
+      nginxTLSSecret: helx-test-apps-renci-org-tls
+  ui:
+    config:
+      brand_name: eduhelx-dev
+      search:
+        enabled: "false"
+        url: https:\/\/helx-test.apps.renci.org\/search-api
 
 professor-helx:
   enabled: false
