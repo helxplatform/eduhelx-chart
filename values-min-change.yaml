@@ -48,7 +48,7 @@ gitea:
   gitea:
     admin:
       email: "tcheek@renci.org"
-      password: "Stormlight94"
+      password: "getInto(gitea)"
     config:
       server:
         DOMAIN: helx-test-gitea.apps.renci.org

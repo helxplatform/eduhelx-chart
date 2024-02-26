@@ -187,7 +187,7 @@ professor-helx:
       brand_name: eduhelx-dev
       search:
         enabled: "false"
-        url: "https:\/\/<change-me>\/search-api"
+        url: "<change-me>"
       workspaces:
         enabled: "true"
     service:
