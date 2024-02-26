@@ -1,0 +1,18 @@
+dependencies:
+- name: helx
+  repository: http://localhost:8080/
+  version: 4.2.1
+- name: helx
+  repository: http://localhost:8080/
+  version: 4.2.1
+- name: grader-api
+  repository: http://localhost:8080/
+  version: 1.0.1
+- name: gitea
+  repository: https://dl.gitea.io/charts/
+  version: 10.1.2
+- name: gitea-assist
+  repository: http://localhost:8080/
+  version: 1.0.0
+digest: sha256:e882eb997046c2d3fd86a51bd2ce3cb3440f6e95854610cf203ae35c9d9c031a
+generated: "2024-02-23T14:26:04.042623-05:00"

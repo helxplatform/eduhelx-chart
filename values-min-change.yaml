@@ -8,70 +8,55 @@ student-helx:
       # runAsUser: 8888
   appstore:
     django:
-      APPSTORE_DJANGO_PASSWORD: "<change-me>"
-      EMAIL_HOST_PASSWORD: "<change-me>"
-    podSecurityContext:
-      runAsUser: "<change-me>"
-      runAsGroup: "<change-me>"
-    postgresql:
-      securityContext:
-        runAsUser: "<change-me>"
+      APPSTORE_DJANGO_PASSWORD: "qf9i154x0j2x"
+      EMAIL_HOST_PASSWORD: ""
     saml:
       ASSERTION_URL: https://helx-test.apps.renci.org
       ENTITY_ID: "https://helx-test.apps.renci.org/saml2_auth/acs/"
     gitea:
-      host: gitea.example.com
+      host: helx-test-gitea.apps.renci.org
 
 professor-helx:
+  enabled: false
   ambassador:
     securityContext:
       # -- Set these options when deploying to openshift. Defaults seen here.
       # runAsUser: 8888
   appstore:
     django:
-      APPSTORE_DJANGO_PASSWORD: "<change-me>"
-      EMAIL_HOST_PASSWORD: "<change-me>"
-    podSecurityContext:
-      runAsUser: "<change-me>"
-      runAsGroup: "<change-me>"
-    postgresql:
-      securityContext:
-        runAsUser: "<change-me>"
+      APPSTORE_DJANGO_PASSWORD: "8dm19g0q4cmx"
+      EMAIL_HOST_PASSWORD: ""
     saml:
       ASSERTION_URL: https://helx-test.apps.renci.org
       ENTITY_ID: "https://helx-test.apps.renci.org/saml2_auth/acs/"
     gitea:
-      host: gitea.example.com
-
-grader-api:
-  securityContext:
-    runAsUser: "<change-me>"
+      host: helx-test-gitea.apps.renci.org
 
 gitea:
   gitea:
     admin:
-      email: "<change-me>"
-      password: "<change-me>"
+      email: "tcheek@renci.org"
+      password: "Stormlight94"
     config:
       server:
-        DOMAIN: gitea.example.com
-        ROOT_URL: https://gitea.example.com
+        DOMAIN: helx-test-gitea.apps.renci.org
+        ROOT_URL: https://helx-test-gitea.apps.renci.org
   ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
     className: null
     enabled: true
     hosts:
-    - host: gitea.example.com
+    - host: helx-test-gitea.apps.renci.org
       paths:
       - path: /
         pathType: Prefix
     tls:
     - hosts:
-      - gitea.example.com
-      secretName: "gitea.example.com-tls"
+      - helx-test-gitea.apps.renci.org
+      secretName: helx-test-gitea.apps.renci.org-tls
 
 gitea-assist:
   config:
     data:
-      gitea-api-url: gitea.example.com
+      gitea-api-url: helx-test-gitea.apps.renci.org

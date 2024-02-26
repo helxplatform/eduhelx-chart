@@ -46,13 +46,18 @@ student-helx:
     imagePostgresql:
       repository: containers.renci.org/helxplatform/third-party/postgres
       tag: latest
+    tycho:
+      externalAppRegistryBranch: eduhelx-dev
+      externalAppRegistryEnabled: true
+      runAsUser: 30000
+      runAsGroup: 1136
+      fsGroup: 1136
     # -- This security context is used for the appstore pod, not pods created by appstore. Tycho manages 
     # the pods created by appstore.
     podSecurityContext:
-      allowPrivilegeEscalation: false
       runAsNonRoot: true
-      runAsGroup: "<change-me>"
-      runAsUser: "<change-me>"
+      runAsGroup: 1000
+      runAsUser: 1000
       # fsGroup:
     postgresql:
       image:
@@ -64,10 +69,10 @@ student-helx:
           size: 2Gi
       securityContext:
         enabled: true
-        runAsUser: "<change-me>"
+        runAsUser: 1000
     resources:
       limits:
-        cpu:
+        cpu: 1
         memory: 1024Mi
       requests:
         cpu: 1
@@ -95,7 +100,7 @@ professor-helx:
       tag: latest
     securityContext:
       # -- Set these options when deploying to openshift. Defaults seen here.
-      runAsUser: 8888
+      # runAsUser: 8888
       # runAsGroup: ""
       # fsGroup: ""
   appstore:
@@ -125,13 +130,18 @@ professor-helx:
     imagePostgresql:
       repository: containers.renci.org/helxplatform/third-party/postgres
       tag: latest
+    tycho:
+      externalAppRegistryBranch: eduhelx-dev
+      externalAppRegistryEnabled: true
+      runAsUser: 30000
+      runAsGroup: 1136
+      fsGroup: 1136
     # -- This security context is used for the appstore pod, not pods created by appstore. Tycho manages 
     # the pods created by appstore.
     podSecurityContext:
-      allowPrivilegeEscalation: false
       runAsNonRoot: true
-      runAsGroup: "<change-me>"
-      runAsUser: "<change-me>"
+      runAsGroup: 1000
+      runAsUser: 1000
       # fsGroup:
     postgresql:
       image:
@@ -143,10 +153,10 @@ professor-helx:
           size: 2Gi
       securityContext:
         enabled: true
-        runAsUser: "<change-me>"
+        runAsUser: 1000
     resources:
       limits:
-        cpu:
+        cpu: 1
         memory: 1024Mi
       requests:
         cpu: 1
@@ -172,7 +182,7 @@ grader-api:
       # DEV_PHASE: "dev"
   securityContext:
     runAsNonRoot: true
-    runAsUser: "<change-me>"
+    runAsUser: 1000
 
 gitea:
   # -- enable/disable deployment of the Gitea service
