@@ -180,6 +180,8 @@ professor-helx:
       serverName: "<change-me>"
     SSL:
       nginxTLSSecret: "<change-me>-tls"
+    ingress:
+      ingressClassName: nginx
   ui:
     config:
       brand_name: eduhelx-dev
