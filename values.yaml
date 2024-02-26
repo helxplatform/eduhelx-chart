@@ -97,7 +97,7 @@ professor-helx:
   # -- enable/disable deployment of the professor deployment of HeLx 
   enabled: true
   global:
-    stdnfsPvc: professornfs
+    stdnfsPvc: studentnfs
   ambassador:
     image:
       repository: containers.renci.org/helxplatform/ambassador
@@ -147,7 +147,11 @@ professor-helx:
       runAsGroup: 1000
       runAsUser: 1000
       # fsGroup:
+    db:
+      host: professor-postgresql
     postgresql:
+      auth:
+        existingSecret: professor-appstore-postgresql
       image:
         registry: containers.renci.org
         repository: helxplatform/third-party/postgres
@@ -176,51 +180,6 @@ professor-helx:
     gitea:
       enabled: true
       host: "<change-me>"
-  nginx:
-    enabled: false
-  resty:
-    enabled: true
-    service:
-      serverName: "<change-me>"
-    SSL:
-      nginxTLSSecret: "<change-me>-tls"
-    ingress:
-      ingressClassName: nginx
-  ui:
-    config:
-      brand_name: eduhelx-dev
-      search:
-        enabled: "false"
-        url: "<change-me>"
-      workspaces:
-        enabled: "true"
-    service:
-      annotations:
-        getambassador.io/config: |
-          ---
-          apiVersion: ambassador/v1
-          kind: Mapping
-          name: helx-ui
-          prefix: /helx
-          service: helx-ui:80
-          rewrite: /helx
-          cors:
-            origins: "*"
-            methods: POST, OPTIONS
-            headers:
-            - Content-Type
-          ---
-          apiVersion: ambassador/v1
-          kind: Mapping
-          name: helx-ui-static
-          prefix: /static/frontend
-          service: helx-ui:80
-          rewrite: /static/frontend
-          cors:
-            origins: "*"
-            methods: POST, OPTIONS
-            headers:
-            - Content-Type
 
 grader-api:
   # -- enable/disable deployment of the EduHeLx Grader API
@@ -257,9 +216,6 @@ gitea:
         PROVIDER: db
       cache:
         ADAPTER: memory
-    additionalConfigFromEnvs:
-    - name: GITEA__DATABASE__HOST
-      value: RELEASE-NAME-postgresql.default.svc.cluster.local:5432
     additionalConfigSources:
     - configMap:
         name: gitea-env
