@@ -59,7 +59,11 @@ student-helx:
       runAsGroup: 1000
       runAsUser: 1000
       # fsGroup:
+    db:
+      host: student-postgresql
     postgresql:
+      auth:
+        existingSecret: student-appstore-postgresql
       image:
         registry: containers.renci.org
         repository: helxplatform/third-party/postgres
@@ -247,6 +251,18 @@ gitea:
         ROOT_URL: "<change-me>"
       webhook:
         ALLOWED_HOST_LIST: "gitea-assist"
+      database:
+        DB_TYPE: postgres
+      session:
+        PROVIDER: db
+      cache:
+        ADAPTER: memory
+    additionalConfigFromEnvs:
+    - name: GITEA__DATABASE__HOST
+      value: RELEASE-NAME-postgresql.default.svc.cluster.local:5432
+    additionalConfigSources:
+    - configMap:
+        name: gitea-env
   ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
@@ -274,6 +290,11 @@ gitea:
     enabled: false
   postgresql:
     enabled: true
+    auth:
+      # -- This has to exclude the release name because we don't know the release name at the time of writing the 
+      # values file. The result is that, effectively, only one eduhelx-chart can be deployed per namespace because
+      # secrets like these will collide.
+      existingSecret: gitea-postgresql
 
 
 gitea-assist:
