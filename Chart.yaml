@@ -1,5 +1,5 @@
 apiVersion: v2
-name: eduhelx-chart
+name: eduhelx
 description: A Helm chart for Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
@@ -26,12 +26,12 @@ appVersion: "1.16.0"
 dependencies:
   - name: helx
     condition: student-helx.enabled
-    version: "^4.2.0"
+    version: "^4.2.1"
     alias: student-helx
     repository: "@helx-charts"
   - name: helx
     condition: professor-helx.enabled
-    version: "^4.2.0"
+    version: "^4.2.1"
     alias: professor-helx
     repository: "@helx-charts"
   - name: grader-api
@@ -43,7 +43,7 @@ dependencies:
     version: "^10.1.2"
     repository: "@gitea-charts"
   - name: gitea-assist
-    condition: gitea-assist.enabled
+    condition: giteaAssist.enabled
     version: "^1.0.0"
     repository: "@helx-charts"
   

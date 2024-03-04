@@ -11,6 +11,7 @@ student-helx:
   global:
     stdnfsPvc: studentnfs
   ambassador:
+    nameOverride: student-ambassador
     image:
       repository: containers.renci.org/helxplatform/ambassador
       tag: latest
@@ -19,9 +20,23 @@ student-helx:
       # runAsUser: 8888
       # runAsGroup: ""
       # fsGroup: ""
-  appstore:
+  nginx:
+    enabled: false
+  resty:
+    enabled: true
+    SSL:
+      nginxTLSSecret: helx-test-apps-renci-org-tls
     image:
-      tag: v3.3.0
+      repository: containers.renci.org/helxplatform/third-party/openresty
+    ingress:
+      create: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt
+      ingressClassName: nginx
+    service:
+      serverName: helx-test.apps.renci.org
+  appstore:
+    nameOverride: student-appstore
     ACCOUNT_DEFAULT_HTTP_PROTOCOL: https
     djangoSettings: eduhelx-dev
     django:
@@ -92,13 +107,16 @@ student-helx:
     gitea:
       enabled: true
       host: "<change-me>"
+  pod-reaper:
+    enabled: false
 
 professor-helx:
   # -- enable/disable deployment of the professor deployment of HeLx 
   enabled: true
   global:
-    stdnfsPvc: studentnfs
+    stdnfsPvc: professornfs
   ambassador:
+    nameOverride: professor-ambassador
     image:
       repository: containers.renci.org/helxplatform/ambassador
       tag: latest
@@ -108,8 +126,7 @@ professor-helx:
       # runAsGroup: ""
       # fsGroup: ""
   appstore:
-    image:
-      tag: v3.3.0
+    nameOverride: professor-appstore
     ACCOUNT_DEFAULT_HTTP_PROTOCOL: https
     djangoSettings: eduhelx-dev
     django:
@@ -180,6 +197,8 @@ professor-helx:
     gitea:
       enabled: true
       host: "<change-me>"
+  pod-reaper:
+    enabled: false
 
 grader-api:
   # -- enable/disable deployment of the EduHeLx Grader API
@@ -191,10 +210,14 @@ grader-api:
   securityContext:
     runAsNonRoot: true
     runAsUser: 1000
+  postgresql:
+    nameOverride: "grader-api-postgresql"
 
 gitea:
   # -- enable/disable deployment of the Gitea service
   enabled: true
+  redis-cluster:
+    enabled: false
   gitea:
     actionsRunner:
       enabled: true
@@ -212,6 +235,8 @@ gitea:
         ALLOWED_HOST_LIST: "gitea-assist"
       database:
         DB_TYPE: postgres
+        NAME: gitea
+        USER: gitea
       session:
         PROVIDER: db
       cache:
@@ -219,6 +244,12 @@ gitea:
     additionalConfigSources:
     - configMap:
         name: gitea-env
+    additionalConfigFromEnvs:
+    - name: GITEA__DATABASE__PASSWD
+      valueFrom:
+        secretKeyRef:
+          name: gitea-postgresql
+          key: password
   ingress:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
@@ -234,7 +265,7 @@ gitea:
       - "<change-me>"
       secretName: "<change-me>-tls"
   persistence:
-    size: 8Gi
+    claimName: gitea-repositories
   resources:
     limits:
       cpu: 500m
@@ -246,12 +277,17 @@ gitea:
     enabled: false
   postgresql:
     enabled: true
-    auth:
-      # -- This has to exclude the release name because we don't know the release name at the time of writing the 
-      # values file. The result is that, effectively, only one eduhelx-chart can be deployed per namespace because
-      # secrets like these will collide.
-      existingSecret: gitea-postgresql
-
+    fullnameOverride: "eduhelx-gitea-postgresql"
+    global:
+      postgresql:
+        auth: 
+          # -- Necessary because the gitea subchart sets the default global postgres password value to 'gitea', and we 
+          # don't want that. 
+          password: null
+          # -- This has to exclude the release name because we don't know the release name at the time of writing the 
+          # values file. The result is that, effectively, only one eduhelx-chart can be deployed per namespace because
+          # secrets like these will collide.
+          existingSecret: gitea-postgresql
 
 gitea-assist:
   # -- enable/disable deployment of the Gitea Assist service
